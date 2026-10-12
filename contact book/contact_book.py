@@ -35,6 +35,26 @@ def delete_contact():
     else:
         print("Invalid index. Please try again.")
 
+def save_contact():
+    with open("contacts.txt", "w") as file:
+        for contact in contacts:
+            file.write(f"{contact['name']},{contact['phone']},{contact['email']}\n")
+    print("Contacts saved to contacts.txt")
+
+def load_contacts():
+    try:
+        with open("contacts.txt", "r") as file:
+            for line in file:
+                name, phone, email = line.strip().split(",")
+                contacts.append({
+                    "name": name,
+                    "phone": phone,
+                    "email": email
+                })
+        print("Contacts loaded from contacts.txt")
+    except FileNotFoundError:
+        print("No saved contacts found.")
+
 def main():
     print("Welcome to the Contact Book!")
     while True:
@@ -42,9 +62,11 @@ def main():
         print("1. Add Contact")
         print("2. View Contacts")
         print("3. Delete Contact")
-        print("4. Exit")
+        print("4. Save Contacts")
+        print("5. Load Contacts")
+        print("6. Exit")
 
-        choice = input("Enter your choice (1-4): ")
+        choice = input("Enter your choice (1-6): ")
         if choice == '1':
             add_contact()
         elif choice == '2':
@@ -52,6 +74,10 @@ def main():
         elif choice == '3':
             delete_contact()
         elif choice == '4':
+            save_contact()
+        elif choice == '5':
+            load_contacts()
+        elif choice == '6':
             print("Exiting the Contact Book. Goodbye!")
             break
         else:
